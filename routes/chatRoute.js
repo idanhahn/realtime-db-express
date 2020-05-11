@@ -7,7 +7,7 @@ var chatController = require('../controllers/chatController')
 router.get('/', chatController.get_all);
 
 // GET BY :ID
-//router.get('/:id', chatController.get_by_id);
+router.get('/:recipientId', chatController.get_by_id);
 
 // CREATE
 router.post('/', chatController.create)
