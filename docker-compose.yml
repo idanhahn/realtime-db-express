@@ -2,7 +2,7 @@ version: '3.2'
 services:
   app:
     container_name: realtime-db-server
-    restart: on-failure
+    restart: always
     build: .
     volumes:
       - ./:/app
@@ -12,6 +12,12 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb-primary
+    environment:
+      - MONGODB_HOSTNAME=mongodb-primary
+      - MONGODB_USERNAME=root
+      - MONGODB_PASSWORD=password123
+      - MONGODB_PORT=27017
+      - MONGODB_DB_NAME=realtime_db
 
   mongodb-primary:
     image: 'bitnami/mongodb:latest'

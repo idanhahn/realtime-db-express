@@ -4,10 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var mongoose = require('mongoose');
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/apiRoute');
+var chatRouter = require('./routes/chatRoute');
 
+var cfg = require('./cfg');
 var app = express();
 
 // view engine setup
@@ -23,6 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
+app.use('/chats', chatRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -39,5 +47,16 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+let uri = 'mongodb://'+ cfg.mongodb.hostname + ':' + cfg.mongodb.port
+    + ',mongodb-secondary:27018' + '/' + cfg.mongodb.db_name + '?replicaSet=replicaset';
+
+console.log(uri)
+mongoose.connect(uri,{
+  "auth": { "authSource": "admin"},
+  "user": cfg.mongodb.username,
+  "pass": cfg.mongodb.password,
+  "useNewUrlParser": true
+}).then(() => console.log('Connection to db successful')).catch((err) => console.log(err))
 
 module.exports = app;

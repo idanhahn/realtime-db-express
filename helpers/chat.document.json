@@ -1,0 +1,8 @@
+{
+  'recipientName': 'String',
+  'recipientId': 'String',
+  'sender': 'String',
+  'senderId': 'String',
+  'msg': 'String',
+  'time': 'milis'
+}
